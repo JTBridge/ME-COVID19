@@ -120,10 +120,10 @@ def normal(y_true, y_pred):
     mean = tf.abs(tf.math.reduce_mean(y_pred))   
     skew_num = tf.math.reduce_mean((y_pred-mean)**3)
     skew_den = tf.math.reduce_mean((y_pred-mean)**2)**1.5 
-    skew = tf.abs(tf.math.reduce_mean((skew_num/skew_den - 3.))/n)
+    skew = tf.abs(tf.math.pow(n*(n-1),0.5)/(n-2))*(skew_num/skew_den)
     kurt_num = tf.math.reduce_mean((y_pred-mean)**4)
     kurt_den = tf.math.reduce_mean((y_pred-mean)**2)**2
-    kurt = tf.abs(tf.math.reduce_mean((kurt_num/kurt_den - 3.))/n)
+    kurt = tf.abs((tf.math.reduce_mean((kurt_num/kurt_den))/n**2)-3.)
     return mean+skew+kurt
 
 def mse_wgt(class_weights=[1,1], targets=[0,1]):
