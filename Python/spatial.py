@@ -108,7 +108,7 @@ class ME(Layer):
 def normal(y_true, y_pred):
     '''
     Loss function for the random effects parameters.
-    Aim to make the parameters nomral distributed with mean 0 by enforcing:
+    Aim to make the parameters normally distributed with mean 0 by enforcing:
     - Mean = 0
     - Skewness = 0
     - Excess kurtosis = 0 (or kurtosis = 3 for the normal distribution)
@@ -120,7 +120,7 @@ def normal(y_true, y_pred):
     mean = tf.abs(tf.math.reduce_mean(y_pred))   
     skew_num = tf.math.reduce_mean((y_pred-mean)**3)
     skew_den = tf.math.reduce_mean((y_pred-mean)**2)**1.5 
-    skew = tf.abs(tf.math.pow(n*(n-1),0.5)/(n-2))*(skew_num/skew_den)
+    skew = tf.abs((tf.math.pow(n*(n-1),0.5)/(n-2))*(skew_num/skew_den))
     kurt_num = tf.math.reduce_mean((y_pred-mean)**4)
     kurt_den = tf.math.reduce_mean((y_pred-mean)**2)**2
     kurt = tf.abs((tf.math.reduce_mean((kurt_num/kurt_den))/n**2)-3.)
